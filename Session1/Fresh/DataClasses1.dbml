@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Session1-1" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RACLV28\SQLEXPRESS;Initial Catalog=Session1-1;Integrated Security=True" SettingsObjectName="Fresh.Properties.Settings" SettingsPropertyName="Session1_1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Countries" Member="Countries">
+    <Type Name="Country">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Country_Office" Member="Offices" ThisKey="ID" OtherKey="CountryID" Type="Office" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Offices" Member="Offices">
+    <Type Name="Office">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CountryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Contact" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="Office_User" Member="Users" ThisKey="ID" OtherKey="OfficeID" Type="User" />
+      <Association Name="Country_Office" Member="Country" ThisKey="CountryID" OtherKey="ID" Type="Country" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Roles" Member="Roles">
+    <Type Name="Role">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Role_User" Member="Users" ThisKey="ID" OtherKey="RoleID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserActivity" Member="UserActivities">
+    <Type Name="UserActivity">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Login" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Logout" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Reason" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="CrashType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="User_UserActivity" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OfficeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="User_UserActivity" Member="UserActivities" ThisKey="ID" OtherKey="UserID" Type="UserActivity" />
+      <Association Name="Office_User" Member="Office" ThisKey="OfficeID" OtherKey="ID" Type="Office" IsForeignKey="true" />
+      <Association Name="Role_User" Member="Role" ThisKey="RoleID" OtherKey="ID" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

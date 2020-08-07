@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Session4-1" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RACLV28\SQLEXPRESS;Initial Catalog=Session4-1;Integrated Security=True" SettingsObjectName="Fresh.Properties.Settings" SettingsPropertyName="Session4_1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Answer" Member="Answers">
+    <Type Name="Answer">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Answer" Member="Answer1" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Answer_DetailSurvey" Member="DetailSurveys" ThisKey="ID" OtherKey="AnswerID" Type="DetailSurvey" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Survey" Member="Surveys">
+    <Type Name="Survey">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SurveyDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Departure" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Arrival" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CabinType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Subscription" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="Survey_DetailSurvey" Member="DetailSurveys" ThisKey="ID" OtherKey="SurveyID" Type="DetailSurvey" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DetailSurvey" Member="DetailSurveys">
+    <Type Name="DetailSurvey">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SurveyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QuestionID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AnswerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Answer_DetailSurvey" Member="Answer" ThisKey="AnswerID" OtherKey="ID" Type="Answer" IsForeignKey="true" />
+      <Association Name="Survey_DetailSurvey" Member="Survey" ThisKey="SurveyID" OtherKey="ID" Type="Survey" IsForeignKey="true" />
+      <Association Name="Question_DetailSurvey" Member="Question" ThisKey="QuestionID" OtherKey="ID" Type="Question" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Question" Member="Questions">
+    <Type Name="Question">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Question" Member="Question1" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Question_DetailSurvey" Member="DetailSurveys" ThisKey="ID" OtherKey="QuestionID" Type="DetailSurvey" />
+    </Type>
+  </Table>
+</Database>

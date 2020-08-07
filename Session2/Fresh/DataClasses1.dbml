@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Session2-1" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RACLV28\SQLEXPRESS;Initial Catalog=Session2-1;Integrated Security=True" SettingsObjectName="Fresh.Properties.Settings" SettingsPropertyName="Session2_1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Aircrafts" Member="Aircrafts">
+    <Type Name="Aircraft">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MakeModel" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TotalSeats" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EconomySeats" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BusinessSeats" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Aircraft_Schedule" Member="Schedules" ThisKey="ID" OtherKey="AircraftID" Type="Schedule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OfficeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Office_User" Member="Office" ThisKey="OfficeID" OtherKey="ID" Type="Office" IsForeignKey="true" />
+      <Association Name="Role_User" Member="Role" ThisKey="RoleID" OtherKey="ID" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Airports" Member="Airports">
+    <Type Name="Airport">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CountryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IATACode" Type="System.String" DbType="VarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Airport_Route" Member="Routes" ThisKey="ID" OtherKey="DepartureAirportID" Type="Route" />
+      <Association Name="Airport_Route1" Member="Routes1" ThisKey="ID" OtherKey="ArrivalAirportID" Type="Route" />
+      <Association Name="Country_Airport" Member="Country" ThisKey="CountryID" OtherKey="ID" Type="Country" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Countries" Member="Countries">
+    <Type Name="Country">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Country_Airport" Member="Airports" ThisKey="ID" OtherKey="CountryID" Type="Airport" />
+      <Association Name="Country_Office" Member="Offices" ThisKey="ID" OtherKey="CountryID" Type="Office" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Offices" Member="Offices">
+    <Type Name="Office">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CountryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Contact" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="Office_User" Member="Users" ThisKey="ID" OtherKey="OfficeID" Type="User" />
+      <Association Name="Country_Office" Member="Country" ThisKey="CountryID" OtherKey="ID" Type="Country" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Roles" Member="Roles">
+    <Type Name="Role">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Role_User" Member="Users" ThisKey="ID" OtherKey="RoleID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Routes" Member="Routes">
+    <Type Name="Route">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DepartureAirportID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ArrivalAirportID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Distance" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FlightTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Route_Schedule" Member="Schedules" ThisKey="ID" OtherKey="RouteID" Type="Schedule" />
+      <Association Name="Airport_Route" Member="Airport" ThisKey="DepartureAirportID" OtherKey="ID" Type="Airport" IsForeignKey="true" />
+      <Association Name="Airport_Route1" Member="Airport1" ThisKey="ArrivalAirportID" OtherKey="ID" Type="Airport" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schedules" Member="Schedules">
+    <Type Name="Schedule">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="AircraftID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RouteID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EconomyPrice" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Confirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FlightNumber" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Association Name="Aircraft_Schedule" Member="Aircraft" ThisKey="AircraftID" OtherKey="ID" Type="Aircraft" IsForeignKey="true" />
+      <Association Name="Route_Schedule" Member="Route" ThisKey="RouteID" OtherKey="ID" Type="Route" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
